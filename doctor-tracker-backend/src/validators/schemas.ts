@@ -26,3 +26,14 @@ export const patientCreateSchema = z.object({
 });
 
 export const patientUpdateSchema = patientCreateSchema.partial();
+
+export const appointmentCreateSchema = z.object({
+  patient: z.string().regex(/^[a-f\d]{24}$/i),
+  doctor: z.string().regex(/^[a-f\d]{24}$/i),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  time: z.string().regex(/^\d{2}:\d{2}$/),
+  reason: z.string().trim().min(2).max(200),
+  status: z.enum(["scheduled", "completed", "cancelled"]).optional(),
+});
+
+export const appointmentUpdateSchema = appointmentCreateSchema.partial();

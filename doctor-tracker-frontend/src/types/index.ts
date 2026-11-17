@@ -31,3 +31,15 @@ export interface PaginatedData<T> {
     pages: number;
   };
 }
+
+export interface Appointment {
+  _id: string;
+  patient: Patient | string;
+  doctor: Doctor | string;
+  date: string;
+  time: string;
+  reason: string;
+  status: "scheduled" | "completed" | "cancelled";
+  createdAt: string;
+  updatedAt: string;
+}

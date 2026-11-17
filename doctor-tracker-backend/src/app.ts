@@ -11,6 +11,7 @@ import { authRouter } from "./routes/auth";
 import { doctorRouter } from "./routes/doctors";
 import { patientRouter } from "./routes/patients";
 import { dashboardRouter } from "./routes/dashboard";
+import { appointmentRouter } from "./routes/appointments";
 
 export function createApp() {
   const app = express();
@@ -54,6 +55,7 @@ export function createApp() {
   app.use("/api/auth", authRouter);
   app.use("/api/doctors", doctorRouter);
   app.use("/api/patients", patientRouter);
+  app.use("/api/appointments", appointmentRouter);
   app.use("/api/dashboard", dashboardRouter);
 
   app.use((_request, response) => {

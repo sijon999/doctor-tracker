@@ -65,7 +65,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[.16em] text-slate-400">Main menu</p>
           {navigation.map((item) => {
             const active = item.href === "/dashboard" ? pathname === item.href : pathname.startsWith(item.href);
-            return <Link key={item.href} href={item.href === "/dashboard/appointments" ? "/dashboard" : item.href} onClick={() => setOpen(false)} className={`mb-1 flex h-11 items-center gap-3 rounded-[10px] px-3.5 text-[13px] transition ${active ? "bg-[#edf4ff] font-semibold text-[#246bfd]" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"}`}><item.icon className="h-[17px] w-[17px]" />{item.label}{item.href === "/dashboard/appointments" && <span className="ml-auto rounded-md bg-[#246bfd] px-1.5 py-0.5 text-[9px] font-bold text-white">NEW</span>}</Link>;
+            return <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className={`mb-1 flex h-11 items-center gap-3 rounded-[10px] px-3.5 text-[13px] transition ${active ? "bg-[#edf4ff] font-semibold text-[#246bfd]" : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"}`}><item.icon className="h-[17px] w-[17px]" />{item.label}{item.href === "/dashboard/appointments" && <span className="ml-auto rounded-md bg-[#246bfd] px-1.5 py-0.5 text-[9px] font-bold text-white">NEW</span>}</Link>;
           })}
         </nav>
         <div className="absolute bottom-0 w-full p-3">
