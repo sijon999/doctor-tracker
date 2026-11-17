@@ -132,3 +132,63 @@
     @apply font-sans;
   }
 }
+
+.dark-theme,
+.dark-theme body {
+  color-scheme: dark;
+}
+
+.dark-theme {
+  background: #0d1526 !important;
+  color: #e5edf8 !important;
+}
+
+.dark-theme aside,
+.dark-theme header,
+.dark-theme aside > div,
+.dark-theme article,
+.dark-theme form,
+.dark-theme [class*="bg-white"],
+.dark-theme [class*="bg-[#fafbfc]"],
+.dark-theme [class*="bg-[#f8fafc]"] {
+  background-color: #111c30 !important;
+  border-color: #26334a !important;
+  color: #e5edf8;
+}
+
+.dark-theme header {
+  background: rgba(17, 28, 48, 0.96) !important;
+}
+
+.dark-theme [class*="bg-slate-50"],
+.dark-theme [class*="bg-[#eef5ff]"],
+.dark-theme [class*="bg-[#edf4ff]"],
+.dark-theme [class*="bg-[#eaf7f2]"],
+.dark-theme [class*="bg-[#fff1ec]"] {
+  background-color: #1a2942 !important;
+}
+
+.dark-theme [class*="text-slate-500"],
+.dark-theme [class*="text-slate-400"],
+.dark-theme [class*="text-slate-300"] {
+  color: #93a4bd !important;
+}
+
+.dark-theme [class*="text-slate-700"],
+.dark-theme [class*="text-slate-800"] {
+  color: #dbe5f3 !important;
+}
+
+.dark-theme input,
+.dark-theme select {
+  color: #e5edf8;
+  background-color: transparent;
+}
+
+.dark-theme input::placeholder {
+  color: #71829a;
+}
+
+.dark-theme [class*="border-slate-200"] {
+  border-color: #26334a !important;
+}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
-import { Activity, Bell, CalendarDays, LayoutDashboard, LogOut, Menu, Search, Settings, Stethoscope, UsersRound, X } from "lucide-react";
+import { Activity, Bell, CalendarDays, LayoutDashboard, LogOut, Menu, Moon, Search, Settings, Stethoscope, Sun, UsersRound, X } from "lucide-react";
 import { api } from "@/lib/api";
 
 const navigation = [
@@ -19,6 +19,23 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [checking, setChecking] = useState(true);
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("doctor-tracker-theme");
+    const nextDark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setDark(nextDark);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark-theme", dark);
+  }, [dark]);
+
+  function toggleTheme() {
+    const nextDark = !dark;
+    setDark(nextDark);
+    localStorage.setItem("doctor-tracker-theme", nextDark ? "dark" : "light");
+  }
 
   useEffect(() => {
     api<{ id: string }>("/auth/me").then(() => setChecking(false)).catch(() => router.replace("/login"));
@@ -34,7 +51,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f7fb] text-[#172033]">
+    <div className={`min-h-screen bg-[#f4f7fb] text-[#172033] ${dark ? "dark-theme" : ""}`}>
       {open && <button aria-label="Close menu" className="fixed inset-0 z-40 bg-slate-950/20 lg:hidden" onClick={() => setOpen(false)} />}
       <aside className={`fixed inset-y-0 left-0 z-50 w-[248px] border-r border-slate-200/80 bg-white transition-transform lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex h-[72px] items-center justify-between px-6">
@@ -64,6 +81,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           <button className="rounded-lg p-2 lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu"><Menu className="h-5 w-5" /></button>
           <label className="hidden h-10 w-full max-w-[360px] items-center gap-2 rounded-xl border border-slate-200 bg-[#fafbfc] px-3 md:flex"><Search className="h-4 w-4 text-slate-400" /><input placeholder="Search patients, doctors..." className="w-full bg-transparent text-xs outline-none" /></label>
           <div className="ml-auto flex items-center gap-2">
+            <button onClick={toggleTheme} aria-label={dark ? "Use light mode" : "Use dark mode"} title={dark ? "Light mode" : "Dark mode"} className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition hover:text-[#246bfd]">{dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</button>
             <button className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500"><CalendarDays className="h-4 w-4" /></button>
             <button className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500"><Bell className="h-4 w-4" /><span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-red-500" /></button>
             <div className="ml-1 flex items-center gap-2 border-l border-slate-200 pl-3"><div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#dce8ff] text-xs font-bold text-[#246bfd]">AD</div><div className="hidden sm:block"><p className="text-xs font-bold">Administrator</p><p className="text-[10px] text-slate-400">Care Guide BD</p></div></div>

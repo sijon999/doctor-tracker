@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
-import { Activity, Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
+import { FormEvent, useEffect, useState } from "react";
+import { Activity, Eye, EyeOff, LockKeyhole, Mail, Moon, Sun } from "lucide-react";
 import { api } from "@/lib/api";
 
 export default function LoginPage() {
@@ -10,6 +10,19 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("doctor-tracker-theme");
+    const nextDark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setDark(nextDark);
+  }, []);
+
+  function toggleTheme() {
+    const nextDark = !dark;
+    setDark(nextDark);
+    localStorage.setItem("doctor-tracker-theme", nextDark ? "dark" : "light");
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -30,7 +43,10 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#edf3fb] px-4">
+    <main className={`relative flex min-h-screen items-center justify-center overflow-hidden px-4 ${dark ? "dark-theme bg-[#0d1526]" : "bg-[#edf3fb]"}`}>
+      <button type="button" onClick={toggleTheme} aria-label={dark ? "Use light mode" : "Use dark mode"} className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-xl border border-white/70 bg-white/80 text-slate-600 shadow-sm backdrop-blur">
+        {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      </button>
       <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[#dceaff]" />
       <div className="absolute -bottom-40 -right-24 h-[430px] w-[430px] rounded-full bg-[#dde9fb]" />
       <form onSubmit={submit} className="relative z-10 w-full max-w-[420px] rounded-[24px] border border-white/80 bg-white p-8 shadow-[0_24px_70px_rgba(34,65,108,.12)]">
